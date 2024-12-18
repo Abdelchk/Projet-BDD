@@ -1,0 +1,55 @@
+1. Structure des Tables :
+
+	•	Users : Inclut des champs comme email, password (hashé), nom, prenom, created_at, updated_at.
+	•	Admins : Plutôt qu’une table séparée, ajoute un champ is_admin dans Users pour simplifier.
+	•	Profils : Pour des informations supplémentaires sur les utilisateurs (user_id, photo_url, bio, preferences).
+	•	Destinations : Champs suggérés : nom, description, prix, image_url, rating, categorie.
+	•	Contacts : Gère les retours utilisateurs (nom, email, telephone, message, statut).
+	•	Adresses : Relie cette table aux Users et Destinations pour gérer des adresses pertinentes.
+
+2. API RESTful :
+
+	•	Symfony : Développe des endpoints REST simples pour gérer les données.
+	•	Exemples :
+	•	GET /destinations : Liste des destinations.
+	•	POST /contacts : Enregistrement d’un message de contact.
+	•	GET /users/{id} : Détails d’un utilisateur.
+	•	POST /destinations : Ajout d’une nouvelle destination.
+	•	Utilise Postman pour tester et documenter les endpoints.
+
+3. Dockerisation (à ameliorer)
+
+    version: '3.8'
+
+    services:
+    oracle-db:
+        image: container-registry.oracle.com/database/express:latest
+        environment:
+        - ORACLE_PASSWORD=my_password
+        ports:
+        - "1521:1521"
+
+    backend:
+        build: ./backend
+        volumes:
+        - ./backend:/var/www/html
+        ports:
+        - "8000:80"
+        depends_on:
+        - oracle-db
+
+    frontend:
+        build: ./frontend
+        volumes:
+        - ./frontend:/usr/src/app
+        ports:
+        - "3000:3000"
+        depends_on:
+        - backend
+
+5. Présentation Finale :
+
+Lors de la présentation :
+	•	Démonstration de l’interface React interactive.
+	•	Test des endpoints API via Postman.
+	•	Affiche les données collectées par le scraping insérées dans la base Oracle. (optionnel)
