@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        body {
+            background-color: #f4f4f9;
+            font-family: 'Arial', sans-serif;
+        }
+        .form-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .form-container h1 {
+            font-size: 1.8em;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+        .form-control {
+            border-radius: 4px;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .alert {
+            margin-top: 20px;
+        }
+        .text-center {
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <h1 class="h3 mb-3 font-weight-normal">Sign Up</h1>
+
+    <form method="POST" action="{{ path('app_register') }}">
+        {{ form_start(form) }}
+
+        <div class="form-group">
+            <label for="inputNom">Nom</label>
+            {{ form_widget(form.nom, { 'attr': {'class': 'form-control', 'id': 'inputNom'} }) }}
+        </div>
+
+        <div class="form-group">
+            <label for="inputPrenom">Prénom</label>
+            {{ form_widget(form.prenom, { 'attr': {'class': 'form-control', 'id': 'inputPrenom'} }) }}
+        </div>
+
+        <div class="form-group">
+            <label for="inputEmail">Email</label>
+            {{ form_widget(form.email, { 'attr': {'class': 'form-control', 'id': 'inputEmail'} }) }}
+        </div>
+
+        <div class="form-group">
+            <label for="inputPassword">Password</label>
+            {{ form_widget(form.password.first, { 'attr': {'class': 'form-control', 'id': 'inputPassword'} }) }}
+        </div>
+
+        <div class="form-group">
+            <label for="inputPasswordConfirmation">Confirm Password</label>
+            {{ form_widget(form.password.second, { 'attr': {'class': 'form-control', 'id': 'inputPasswordConfirmation'} }) }}
+        </div>
+
+        <div class="form-group">
+            <button class="btn btn-lg btn-primary" type="submit">Register</button>
+        </div>
+
+        {{ form_end(form) }}
+    </form>
+
+    <p>Already have an account? <a href="{{ path('app_login') }}">Login here</a></p>
+{% endblock %}
