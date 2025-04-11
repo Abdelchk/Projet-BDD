@@ -28,15 +28,15 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
     public function authenticate(Request $request): Passport
     {
-        $email = $request->getPayload()->getString('email');
+        $email = $request->request->get('email', '');
 
         $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $email);
 
         return new Passport(
             new UserBadge($email),
-            new PasswordCredentials($request->getPayload()->getString('password')),
+            new PasswordCredentials($request->request->get('password', '')),
             [
-                new CsrfTokenBadge('authenticate', $request->getPayload()->getString('_csrf_token')),
+                new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
                 new RememberMeBadge(),
             ]
         );
@@ -48,10 +48,27 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        // For example:
-        // return new RedirectResponse($this->urlGenerator->generate('some_route'));
-        throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+        // Récupérer l'utilisateur authentifié
+        $user = $token->getUser();
+
+        if (method_exists($user, 'getRoles')) {
+            $roles = $user->getRoles(); // Obtenu depuis l'entité utilisateur
+
+            // Redirection en fonction des rôles
+            if (in_array('ROLE_ADMIN', $roles, true)) {
+                return new RedirectResponse($this->urlGenerator->generate('dashboard'));
+            }
+
+            if (in_array('ROLE_USER', $roles, true)) {
+                return new RedirectResponse($this->urlGenerator->generate('profil'));
+            }
+        }
+
+        // Redirection par défaut si aucun rôle spécifique
+        return new RedirectResponse($this->urlGenerator->generate('default_page'));
     }
+
+
 
     protected function getLoginUrl(Request $request): string
     {

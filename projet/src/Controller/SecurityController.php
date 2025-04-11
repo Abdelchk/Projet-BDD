@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\PasswordHasher\PasswordHasherInterface; // Corriger ici
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Utilisateur;
 use App\Form\RegistrationType;
@@ -32,7 +32,7 @@ class SecurityController extends AbstractController
     }
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, PasswordHasherInterface $passwordHasher, UtilisateurRepository $userRepository): Response
+    public function register(Request $request, UserPasswordHasherInterface $passwordHasher, UtilisateurRepository $userRepository): Response
     {
         $user = new Utilisateur();
         $form = $this->createForm(RegistrationType::class, $user);
@@ -42,7 +42,7 @@ class SecurityController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // Hash du mot de passe
             $plainPassword = $user->getPassword();
-            $hashedPassword = $passwordHasher->hash($plainPassword);  // Utilisation correcte de PasswordHasherInterface
+            $hashedPassword = $passwordHasher->hashPassword($user, $plainPassword);  // Utilisation correcte de PasswordHasherInterface
             $user->setPassword($hashedPassword);
 
             // Enregistrement de l'utilisateur
@@ -55,7 +55,7 @@ class SecurityController extends AbstractController
         }
 
         return $this->render('security/register.html.twig', [
-            'registrationForm' => $form->createView(),
+            'form' => $form->createView(),
         ]);
     }
 
