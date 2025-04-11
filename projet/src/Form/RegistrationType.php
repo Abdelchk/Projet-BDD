@@ -29,7 +29,7 @@ class RegistrationType extends AbstractType
                 'label' => 'Email',
                 'attr' => ['class' => 'form-control']
             ])
-            ->add('mdp', RepeatedType::class, [
+            ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'first_options'  => ['label' => 'Password', 'attr' => ['class' => 'form-control']],
                 'second_options' => ['label' => 'Confirm Password', 'attr' => ['class' => 'form-control']],

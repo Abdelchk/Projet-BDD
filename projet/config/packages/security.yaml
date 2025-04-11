@@ -1,6 +1,7 @@
 security:
     password_hashers:
-        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+        App\Entity\Utilisateur:
+            algorithm: auto
     
     providers:
         # Utiliser une base de données pour les utilisateurs (exemple)
@@ -34,4 +35,4 @@ security:
     access_control:
         # Contrôle d'accès pour les utilisateurs et administrateurs
         - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/app, roles: ROLE_USER }
+        - { path: ^/profil, roles: ROLE_USER }

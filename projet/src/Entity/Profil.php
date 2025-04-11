@@ -15,13 +15,13 @@ class Profil
     private ?int $id = null;
 
     #[ORM\OneToOne(inversedBy: 'profil', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Utilisateur $id_utilisateur = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $bio = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $preferences = null;
 
     public function getId(): ?int
