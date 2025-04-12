@@ -51,7 +51,7 @@ class SecurityController extends AbstractController
             // Connexion immédiate de l'utilisateur après l'enregistrement
             $this->login($user);
 
-            return $this->redirectToRoute('app_home'); // Redirige vers la page d'accueil ou autre
+            return $this->redirectToRoute('app_destinations'); // Redirige vers la page d'accueil ou autre
         }
 
         return $this->render('security/register.html.twig', [

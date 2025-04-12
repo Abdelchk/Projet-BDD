@@ -64,4 +64,35 @@ class Profil
 
         return $this;
     }
+
+    public function getPreferencesArray(): array
+{
+    return $this->preferences ? explode(',', $this->preferences) : [];
+}
+
+public function addPreference(int $destinationId): static
+{
+    $preferences = $this->getPreferencesArray();
+    if (!in_array($destinationId, $preferences)) {
+        $preferences[] = $destinationId;
+        $this->preferences = implode(',', $preferences);
+    }
+    return $this;
+}
+
+public function removePreference(int $destinationId): static
+{
+    $preferences = array_filter(
+        $this->getPreferencesArray(),
+        fn($id) => (int)$id !== $destinationId
+    );
+    $this->preferences = implode(',', $preferences);
+    return $this;
+}
+
+public function hasPreference(int $destinationId): bool
+{
+    return in_array($destinationId, $this->getPreferencesArray());
+}
+
 }
