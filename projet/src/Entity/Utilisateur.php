@@ -32,7 +32,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $is_admin = null;
 
-    #[ORM\OneToOne(mappedBy: 'idUtilisateur', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToOne(mappedBy: 'id_utilisateur', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private ?Profil $profil = null;
 
     public function getId(): ?int

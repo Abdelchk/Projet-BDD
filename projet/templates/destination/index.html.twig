@@ -4,6 +4,9 @@
 
 {% block stylesheets %}
     <style>
+        body {
+            font-family: 'arial'
+        }
         .title {
             text-align: center;
             margin: 2rem 0;
@@ -84,20 +87,20 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Liste des destinations</h1>
+    <h1 class="title">Liste des destinations</h1>
 
     {% for destination in destinations %}
-        <div class="destination">
+        <div class="destinations-container">
             <h2>{{ destination.nom }}</h2>
-            <img src="{{ destination.urlImgs }}" alt="Image de {{ destination.nom }}" style="width: 300px; height: auto;" />
-            <p>{{ destination.description }}</p>
+            <img class='destination-card' src="{{ destination.urlImgs }}" alt="Image de {{ destination.nom }}" />
+            <p class="destination-content">{{ destination.description }}</p>
 
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                <form action="{{ path('app_toggle_favorite', { id: destination.id }) }}" method="post">
+                {# <form action="{{ path('app_toggle_favorite', { id: destination.id }) }}" method="post">
                     <button class="favorite-btn {{ destination.is_favorite ? 'active' : '' }}" type="submit">
                         {{ destination.is_favorite ? '❤️' : '🤍' }}
                     </button>
-                </form>
+                </form> #}
             {% else %}
                 <p><em>Connectez-vous pour ajouter en favoris.</em></p>
             {% endif %}
